@@ -9,6 +9,7 @@
 <ItemGroup>
   <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.2" />
   <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="8.0.0" PrivateAssets="all" />
+  <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
 </ItemGroup>
 
 </Project>
