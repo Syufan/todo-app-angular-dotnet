@@ -1,0 +1,91 @@
+name: Build and Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    
+    ############ Angular Setup ############
+    - name: Cache Angular dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('client/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 20
+
+    - name: Install Angular dependencies
+      working-directory: ./client
+      run: npm install
+
+    - name: Run Angular lint
+      working-directory: ./client
+      run: npm run lint
+
+    - name: Build Angular frontend
+      working-directory: ./client
+      run: npm run build --if-present
+
+    - name: Run Angular unit tests with coverage
+      working-directory: ./client
+      run: |
+        npm test -- --watch=false --browsers=ChromeHeadless --code-coverage
+
+    - name: Upload Angular coverage to Codecov
+      uses: codecov/codecov-action@v4
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        flags: frontend
+        directory: ./client/coverage
+        fail_ci_if_error: true
+
+    ############ .NET Setup ############
+    - name: Cache .NET dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.nuget/packages
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget-
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 9.0.x
+
+    - name: Restore .NET dependencies
+      working-directory: ./server
+      run: dotnet restore
+
+    - name: Run .NET format check
+      working-directory: ./server
+      run: dotnet format --verify-no-changes
+
+    - name: Build .NET backend
+      working-directory: ./server
+      run: dotnet build --no-restore
+
+    - name: Run .NET tests with coverage
+      working-directory: ./server
+      run: dotnet test --collect:"XPlat Code Coverage" --results-directory ./TestResults
+
+    - name: Upload .NET coverage to Codecov
+      uses: codecov/codecov-action@v4
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        flags: backend
+        directory: ./server/TestResults
+        fail_ci_if_error: true
