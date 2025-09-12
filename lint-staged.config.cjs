@@ -1,12 +1,11 @@
 module.exports = {
     'client/**/*.{ts,js,html,css,scss,json}': [
-      'npm exec --prefix client prettier -- --write',
-      'npm exec --prefix client eslint -- --fix'
+      'npm --prefix client exec prettier -- --check',
     ],
-    ignore: [
+    ignores: [
       'client/node_modules/**',
       'client/dist/**',
       'client/.angular/**',
-      'client/coverage/**'
-    ]
-  }
+      'client/coverage/**',
+    ],
+  };

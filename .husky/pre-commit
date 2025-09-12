@@ -1,10 +1,16 @@
-#!/usr/bin/env sh
-set -e
+#!/bin/sh
+set -eu
 
-echo "🔍 frontend: lint-staged (quiet)"
-npx --no-install lint-staged --quiet --config ./lint-staged.config.cjs
+echo "🔍 frontend: lint-staged (Prettier --check)"
 
-echo "🔍 backend: dotnet format check"
-dotnet format ./server --verify-no-changes
+npx --no lint-staged --config ./lint-staged.config.cjs
+
+echo "🔍 frontend: ng lint (project)"
+
+npm --prefix client run lint
+
+echo "🔍 backend: dotnet format --verify-no-changes"
+
+dotnet format ./server/server.csproj --verify-no-changes
 
 echo "✅ pre-commit passed."
