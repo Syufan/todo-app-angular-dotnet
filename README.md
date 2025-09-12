@@ -1,25 +1,28 @@
 # todo-app-angular-dotnet
 
-This is a full-stack TODO list application built with Angular 20 and .NET 9 Web API.
-
+A full-stack TODO list application built with **Angular 20** and **.NET 9 Web API**.
 
 ## Features
 
-This application implements the core features of a basic TODO list system:
+This application implements the core features of a basic TODO management system:
 
 - View all TODO items (loaded by default)
-- Add a new TODO item via form input
+- Add a new TODO item via form
 - Delete an existing TODO item
 
+---
 
-## Stack & Versions
+## Tech Stack
 
-- **Frontend**: Angular 20 (May 2025 release)
-- **Backend**: ASP.NET Core Web API (.NET 9 STS)
+| Layer     | Technology               | Version           |
+|-----------|--------------------------|-------------------|
+| Frontend  | Angular                  | `20.x` (May 2025) |
+| Backend   | ASP.NET Core Web API     | `9.0.x` (STS)     |
 
-> .NET 9 is the latest release, offering the newest features.  
-> For longer-term support, .NET 8 is currently the LTS version.
+> **Note**: .NET 9 is a Short-Term Support (STS) release.  
+> For long-term production use, consider .NET 8 LTS.
 
+---
 
 ## Data Model
 
@@ -29,59 +32,109 @@ classDiagram
     int Id
     string Title
   }
+```
 
-## Prerequisites
-- Node.js: **20.17.0** （见 `.nvmrc`）
-- .NET SDK: **9.0.200**（见 `global.json`）
-- （可选）nvm / nvm-windows 用于统一 Node 版本
+---
+
+## Development Environment
+
+To ensure consistent builds across all developers, this project **locks the environment** via:
+
+| Tool         | Version Source  | Notes                                     |
+|--------------|------------------|-------------------------------------------|
+| Node.js      | `.nvmrc`         | Version `20.17.0`                         |
+| .NET SDK     | `global.json`    | Version `9.0.200`                         |
+| nvm (optional) | —              | Use [nvm](https://github.com/nvm-sh/nvm) or nvm-windows |
+
+---
 
 ## Quick Start
+
 ```bash
-# clone
+# Clone the repo
 git clone https://github.com/Syufan/todo-app-angular-dotnet.git
 cd todo-app-angular-dotnet
 
-# 使用项目内版本
+# Use correct Node version (if nvm is installed)
 nvm use || true
 
-# 一键初始化（无数据库）
+# One-click setup (installs frontend & backend deps)
 chmod +x scripts/bootstrap.sh
 ./scripts/bootstrap.sh
+```
 
+---
 
 ## How to Run
 
-Run Frontend (Angular)
+### Frontend (Angular)
+
+```bash
 cd client
 npm start
+```
 
-Run Backend (.NET)
+### Backend (.NET)
+
+```bash
 cd server
 dotnet run
+```
 
+---
 
-Tests & Coverage
-	•	Frontend: cd client && npm test -- --watch=false --browsers=ChromeHeadless --code-coverage
-	•	Backend: dotnet test ./Server.Tests/Server.Tests.csproj --collect "XPlat Code Coverage"
-	•	CI: GitHub Actions 已配置；前后端覆盖率上报到 Codecov（见 Workflow）。
+## Tests & Coverage
 
+| Layer     | Command                                                                 |
+|-----------|-------------------------------------------------------------------------|
+| Frontend  | `cd client && npm test -- --watch=false --browsers=ChromeHeadless --code-coverage` |
+| Backend   | `dotnet test ./Server.Tests/Server.Tests.csproj --collect "XPlat Code Coverage"` |
 
-Pre-commit Hooks
-	•	前端：Prettier 检查（不自动修复）
-	•	后端：dotnet format --verify-no-changes
-	•	触发：git commit 时自动运行
-	•	本地手动修复：
-	•	Frontend: npm --prefix client exec prettier -- --write <file>
-	•	Backend: dotnet format（在 server/）
+> GitHub Actions is configured to run both frontend and backend tests.  
+> Code coverage is reported to [Codecov](https://about.codecov.io/) (see workflow file).
 
-Conventions
-	•	行尾：LF（见 .gitattributes）
-	•	代码风格：见 .editorconfig
-	•	分支策略 / PR 需通过：CI + pre-commit
-  # 一次性提交命令
+---
+
+## Pre-commit Hooks
+
+This project uses **Husky + lint-staged + dotnet format** for code consistency.
+
+| Area     | Tool                         | Behavior                     |
+|----------|------------------------------|------------------------------|
+| Frontend | `prettier --check`           | Checks formatting only       |
+| Backend  | `dotnet format --verify-no-changes` | Checks code format compliance |
+
+### Manual Fix Commands
+
+```bash
+# Frontend (Prettier fix)
+npm --prefix client exec prettier -- --write <file>
+
+# Backend (.NET format)
+cd server
+dotnet format
+```
+
+---
+
+## Conventions
+
+- **Line endings**: LF enforced via `.gitattributes`
+- **Code style**: Enforced via `.editorconfig`
+- **Commit strategy**: All PRs must pass CI and pre-commit checks
+- **Git branches**: Follow GitHub Flow or your team policy
+
+---
+
+## One-time Commit to Lock Dev Environment
+
 ```bash
 mkdir -p scripts
-# 写入上述文件内容后：
+
+# After adding files below:
+# .nvmrc, global.json, .editorconfig, .gitattributes, scripts/bootstrap.sh, README.md
+
 git add .nvmrc global.json .editorconfig .gitattributes scripts/bootstrap.sh README.md
 git commit -m "chore: lock dev env & add bootstrap + README"
 git push origin main
+```
