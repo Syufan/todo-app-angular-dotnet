@@ -79,7 +79,6 @@ jobs:
       - name: Run .NET format check
         working-directory: ./server
         run: dotnet format --verify-no-changes
-        continue-on-error: true
 
       - name: Show format error hint
         if: failure()
