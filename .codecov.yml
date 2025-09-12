@@ -1,0 +1,23 @@
+---
+codecov:
+  notify:
+    after_n_builds: 2
+
+coverage:
+  status:
+    project:
+      default:
+        target: 0.8
+        threshold: 0.02
+    patch:
+      default:
+        target: 0.6
+        threshold: 0.05
+
+flags:
+  frontend:
+    paths:
+      - client/
+  backend:
+    paths:
+      - server/
