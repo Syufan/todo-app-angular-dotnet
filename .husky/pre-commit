@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+set -e
+
+echo "🔍 frontend: lint-staged (quiet)"
+npx --no-install lint-staged --quiet --config ./lint-staged.config.cjs
+
+echo "🔍 backend: dotnet format check"
+dotnet format ./server --verify-no-changes
+
+echo "✅ pre-commit passed."

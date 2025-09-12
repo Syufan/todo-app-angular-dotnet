@@ -1,0 +1,18 @@
+# Node & Angular
+node_modules/
+client/node_modules/
+client/dist/
+client/coverage/
+client/.angular/
+
+# .NET
+server/bin/
+server/obj/
+Server.Tests/bin/
+Server.Tests/obj/
+server/TestResults/
+Server.Tests/TestResults/
+
+# IDE / OS
+.vscode/
+.DS_Store

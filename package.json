@@ -1,0 +1,18 @@
+{
+  "name": "todo-app-angular-dotnet",
+  "version": "1.0.0",
+  "description": "This is a full-stack TODO list application built with Angular 20 and .NET 9 Web API.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.6",
+    "prettier": "^3.6.2"
+  }
+}
