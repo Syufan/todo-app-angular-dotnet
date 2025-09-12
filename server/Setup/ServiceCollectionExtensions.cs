@@ -1,14 +1,16 @@
 using Microsoft.AspNetCore.HttpLogging;
+using Microsoft.AspNetCore.Mvc;
 using Server.Application;
 using Server.Infrastructure;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Server.Setup;
 
 public static class ServiceCollectionExtensions
-{   
+{
     // Registers core API-level services and configurations
-    public static IServiceCollection AddApiBasics(this IServiceCollection services, IConfiguration config)
+    public static IServiceCollection AddApiBasics(
+        this IServiceCollection services,
+        IConfiguration config)
     {
         // Controllers
         services.AddControllers()
