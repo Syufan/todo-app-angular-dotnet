@@ -90,9 +90,10 @@ jobs:
         run: dotnet build --no-restore
 
       - name: Run .NET tests with coverage
-        run: dotnet test ./server/Server.Tests/Server.Tests.csproj \
-              --collect:"XPlat Code Coverage" \
-              --results-directory ./server/TestResults
+        run: |
+          dotnet test Server.Tests/Server.Tests.csproj \
+            --collect 'XPlat Code Coverage' \
+            --results-directory TestResults
 
       - name: Upload .NET coverage to Codecov
         uses: codecov/codecov-action@v4
