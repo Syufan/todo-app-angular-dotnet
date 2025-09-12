@@ -32,3 +32,6 @@
 /Users/yufan/Desktop/ToDo/todo-app-angular-dotnet/server/obj/Debug/net9.0/server.pdb
 /Users/yufan/Desktop/ToDo/todo-app-angular-dotnet/server/obj/Debug/net9.0/server.genruntimeconfig.cache
 /Users/yufan/Desktop/ToDo/todo-app-angular-dotnet/server/obj/Debug/net9.0/ref/server.dll
+/Users/yufan/Desktop/ToDo/todo-app-angular-dotnet/server/bin/Debug/net9.0/Swashbuckle.AspNetCore.Swagger.dll
+/Users/yufan/Desktop/ToDo/todo-app-angular-dotnet/server/bin/Debug/net9.0/Swashbuckle.AspNetCore.SwaggerGen.dll
+/Users/yufan/Desktop/ToDo/todo-app-angular-dotnet/server/bin/Debug/net9.0/Swashbuckle.AspNetCore.SwaggerUI.dll
