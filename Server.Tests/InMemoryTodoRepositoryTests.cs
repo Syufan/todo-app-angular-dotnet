@@ -56,14 +56,14 @@ public class InMemoryTodoRepositoryTests
     }
 
     [Fact]
-    public void Add_Parallel_GeneratesUniqueIncreasingIds()
+    public async Task Add_Parallel_GeneratesUniqueIncreasingIds()
     {
         var repo = new InMemoryTodoRepository();
 
         var tasks = Enumerable.Range(0, 200)
             .Select(i => Task.Run(() => repo.Add($"T{i}")));
 
-        var items = Task.WhenAll(tasks).GetAwaiter().GetResult();
+        var items = await Task.WhenAll(tasks);
 
         items.Select(x => x.Id).Should().OnlyHaveUniqueItems();
         items.Select(x => x.Id).Min().Should().BeGreaterOrEqualTo(1);
