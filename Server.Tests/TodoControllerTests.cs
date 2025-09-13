@@ -19,9 +19,8 @@ public class TodoControllerTests
 
         var act =  sut.GetTodos();
 
-        var ok  = act.Result as OkObjectResult;
-        ok.Should().NotBeNull();
-        ok.StatusCode.Should().Be(200); 
+        var ok = act.Result.Should().BeOfType<OkObjectResult>().Subject;
+        ok.StatusCode.Should().Be(200);
         var list = ok.Value as IEnumerable<TodoItemDto>;
         list.Should().BeEmpty();
     }
