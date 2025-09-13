@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormControl, Validators } from '@angular/forms';
 import { TodoStore } from '../../services/todo.store';
@@ -55,7 +55,7 @@ import { TodoStore } from '../../services/todo.store';
     </section>
   `,
 })
-export class TodosPage {
+export class TodosPage implements OnInit {  
   readonly store = inject(TodoStore);
   title = new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.maxLength(200)] });
   ngOnInit() { this.store.refresh(); }

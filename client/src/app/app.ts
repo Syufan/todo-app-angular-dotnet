@@ -1,7 +1,5 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { TodoStore } from './services/todo.store';
+// client/src/app/app.ts
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 @Component({
@@ -9,31 +7,6 @@ import { RouterOutlet } from '@angular/router';
   standalone: true,
   imports: [RouterOutlet],
   templateUrl: './app.html',
-  styleUrls: ['./app.scss']
+  styleUrls: ['./app.scss'],
 })
-export class App implements OnInit {
-  private readonly store = inject(TodoStore);
-
-  todos   = this.store.todos;
-  loading = this.store.loading;
-  error   = this.store.error;
-
-  newTitle = '';
-
-  ngOnInit(): void {
-    this.store.refresh();
-  }
-  
-  trackById = (_: number, t: { id: number }) => t.id;
-
-  add(): void {
-    const t = this.newTitle.trim();
-    if (!t) return;
-    this.store.add(t);
-    this.newTitle = '';
-  }
-
-  remove(id: number): void {
-    this.store.remove(id);
-  }
-}
+export class App {}
