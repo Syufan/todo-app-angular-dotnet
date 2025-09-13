@@ -108,6 +108,7 @@ docker compose down
 |-----------|-------------------------------------------------------------------------|
 | Frontend  | `cd client && npm test -- --watch=false` |
 | Backend   | `dotnet test` |
+[![codecov](https://codecov.io/gh/Syufan/todo-app-angular-dotnet/branch/main/graph/badge.svg)](https://codecov.io/gh/Syufan/todo-app-angular-dotnet)
 
 ---
 
