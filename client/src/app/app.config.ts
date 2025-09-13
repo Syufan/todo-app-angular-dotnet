@@ -9,7 +9,7 @@ import { correlationIdInterceptor } from './interceptors/correlation-id.intercep
 import { problemDetailsInterceptor } from './interceptors/problem-details.interceptor';
 import { routes } from './app.routes';
 import { API_BASE_URL } from './core/tokens';
-import { environment } from '../../../environments/environment';
+import { environment } from '../environments/environment';
 
 export const appConfig: ApplicationConfig = {
   providers: [
