@@ -1,4 +1,5 @@
 // client/src/app/services/todo.store.ts
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable, inject, signal, computed } from '@angular/core';
 import { TodoService } from './todo.service';
 import { TodoItemDto } from '../models/todo.models';
@@ -42,7 +43,29 @@ export class TodoStore {
   }
 
   // To extract error message
-  private readErr(e: any): string {
-    return e?.error?.title ?? e?.error?.error ?? e?.message ?? 'Unknown error';
+  private readErr(err: unknown): string {
+
+    if (err instanceof HttpErrorResponse) {
+      const data = err.error as unknown;
+  
+      if (typeof data === 'string') return data;
+  
+      if (data && typeof data === 'object') {
+        const obj = data as { title?: unknown; error?: unknown; message?: unknown };
+        if (typeof obj.title === 'string')   return obj.title;
+        if (typeof obj.error === 'string')   return obj.error;
+        if (typeof obj.message === 'string') return obj.message;
+      }
+  
+      return err.message ?? 'Unknown error';
+    }
+  
+    if (typeof err === 'string') return err;
+    if (err && typeof err === 'object' && 'message' in err) {
+      const m = (err as { message?: unknown }).message;
+      if (typeof m === 'string') return m;
+    }
+  
+    return 'Unknown error';
   }
 }
