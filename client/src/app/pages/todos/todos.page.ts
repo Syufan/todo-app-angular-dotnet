@@ -8,10 +8,10 @@ import { TodoStore } from '../../services/todo.store';
   selector: 'app-todos',
   imports: [CommonModule, ReactiveFormsModule],
   template: `
-    <section class="w-full max-w-2xl mx-auto mt-8">
+    <section class="w-full max-w-2xl mx-auto mt-40">
       <h2 class="mb-6 text-3xl font-semibold tracking-tight">Todos</h2>
 
-      <form (ngSubmit)="onCreate()" class="mb-4 flex gap-3">
+      <form (submit)="onCreate($event)" class="mb-4 flex gap-3">
         <input
           [formControl]="title"
           type="text"
@@ -59,9 +59,11 @@ export class TodosPage {
   readonly store = inject(TodoStore);
   title = new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.maxLength(200)] });
   ngOnInit() { this.store.refresh(); }
-  onCreate() {
+  onCreate(ev?: Event) {
+    ev?.preventDefault();
     const v = (this.title.value || '').trim();
     if (!v) { this.title.setErrors({ required: true }); return; }
-    this.store.add(v); this.title.reset('');
+    this.store.add(v);
+    this.title.reset('');
   }
 }
