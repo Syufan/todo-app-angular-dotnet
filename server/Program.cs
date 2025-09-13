@@ -21,7 +21,8 @@ builder.Services
 
 var app = builder.Build();
 
-app.UseAppPipeline();                      // Global error handler, logging, CORS, Swagger, routes
+// Global error handler, logging, CORS, Swagger, routes
+app.UseAppPipeline();
 
 app.Run();
 
