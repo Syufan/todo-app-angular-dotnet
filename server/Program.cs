@@ -1,16 +1,27 @@
-// server/Program.cs
+using Serilog;
 using Server.Setup;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Configure Serilog for structured logging
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Information()
+    .MinimumLevel.Override("Microsoft", Serilog.Events.LogEventLevel.Warning)
+    .Enrich.FromLogContext()
+    .WriteTo.File("Logs/app.log", rollingInterval: RollingInterval.Day)
+    .CreateLogger();
+
+// Replace default logger with Serilog
+builder.Host.UseSerilog();
+
 builder.Services
-    .AddApiBasics(builder.Configuration)   // 控制器、ProblemDetails、CORS、HttpLogging、Swagger
-    .AddTodoInfrastructure()               // 你的仓储等基础设施
-    .AddCorrelationId();                   // 关联ID中间件
+    .AddApiBasics(builder.Configuration)   // Add controllers, CORS, Swagger, ProblemDetails, HttpLogging
+    .AddTodoInfrastructure()               // Register repository layer
+    .AddCorrelationId();                   // Middleware to inject correlation ID
 
 var app = builder.Build();
 
-app.UseAppPipeline();                      // HTTPS/HSTS、异常处理、关联ID、HttpLogging、CORS、Swagger、路由/健康检查
+app.UseAppPipeline();                      // Global error handler, logging, CORS, Swagger, routes
 
 app.Run();
 
