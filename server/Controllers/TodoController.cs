@@ -25,9 +25,14 @@ public sealed class TodoController : ControllerBase
     [HttpPost]
     public ActionResult<TodoItemDto> AddTodo([FromBody] CreateTodoRequest request)
     {
-        var created = _repo.Add(request.Title!);
-        var dto = created.ToDto();
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
 
+        if (string.IsNullOrWhiteSpace(request.Title))
+            return BadRequest(new { error = "Title cannot be empty." });
+
+        var created = _repo.Add(request.Title!.Trim());
+        var dto = created.ToDto();
         return CreatedAtAction(nameof(GetTodos), new { }, dto);
     }
 
