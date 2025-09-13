@@ -51,10 +51,6 @@ To ensure consistent builds across all developers, this project **locks the envi
 ## Quick Start
 
 ```bash
-# Clone the repo
-git clone https://github.com/Syufan/todo-app-angular-dotnet.git
-cd todo-app-angular-dotnet
-
 # Use correct Node version (if nvm is installed)
 nvm use || true
 
@@ -81,17 +77,38 @@ cd server
 dotnet run
 ```
 
+## Run with Docker
+
+This project also provides a containerized setup for consistent builds across any machine.
+
+### Requirements
+- Docker
+- Docker Compose v2+
+
+### Start the stack
+
+```bash
+docker compose up --build
+```
+
+### Services
+- **API (.NET)** → http://localhost:5264/api/todo
+- **Web (Angular)** → http://localhost:8080
+
+### Stop the stack
+
+```bash
+docker compose down
+```
+
 ---
 
 ## Tests & Coverage
 
 | Layer     | Command                                                                 |
 |-----------|-------------------------------------------------------------------------|
-| Frontend  | `cd client && npm test -- --watch=false --browsers=ChromeHeadless --code-coverage` |
-| Backend   | `dotnet test ./Server.Tests/Server.Tests.csproj --collect "XPlat Code Coverage"` |
-
-> GitHub Actions is configured to run both frontend and backend tests.  
-> Code coverage is reported to [Codecov](https://about.codecov.io/) (see workflow file).
+| Frontend  | `cd client && npm test -- --watch=false` |
+| Backend   | `dotnet test` |
 
 ---
 

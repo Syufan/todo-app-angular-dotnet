@@ -1,0 +1,20 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: server/Dockerfile
+    container_name: todo-api
+    ports:
+      - "5264:5264"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+
+  web:
+    build:
+      context: .
+      dockerfile: client/Dockerfile
+    container_name: todo-web
+    depends_on:
+      - api
+    ports:
+      - "8080:8080"
