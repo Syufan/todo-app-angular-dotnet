@@ -1,7 +1,7 @@
 /** @type {import('karma').Config} */
 module.exports = function (config) {
   config.set({
-    frameworks: ['jasmine', '@angular-devkit/build-angular'],
+    frameworks: ['jasmine'],
 
     browsers: ['ChromeHeadless'],
     singleRun: true,
