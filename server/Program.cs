@@ -6,8 +6,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Configure Serilog for structured logging
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Information()
-    .MinimumLevel.Override("Microsoft", Serilog.Events.LogEventLevel.Warning)
-    .Enrich.FromLogContext()
+    .MinimumLevel.Override("Microsoft", Serilog.Events.LogEventLevel.Information)
+    .WriteTo.Console()
     .WriteTo.File("Logs/app.log", rollingInterval: RollingInterval.Day)
     .CreateLogger();
 
