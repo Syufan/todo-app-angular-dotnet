@@ -10,11 +10,15 @@ export class TodoService {
   private readonly http = inject(HttpClient);
   private readonly base = inject(API_BASE_URL);
 
-  list()  { return this.http.get<TodoItemDto[]>(`${this.base}/todo`); }
-  add(title: string) {
+  list(): Observable<TodoItemDto[]> {
+    return this.http.get<TodoItemDto[]>(`${this.base}/todo`);
+  }
+  add(title: string): Observable<TodoItemDto> {
     const body: CreateTodoRequest = { title };
     return this.http.post<TodoItemDto>(`${this.base}/todo`, body);
   }
-  remove(id: number) { return this.http.delete<void>(`${this.base}/todo/${id}`); }
+  remove(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.base}/todo/${id}`);
+  }
 }
 
