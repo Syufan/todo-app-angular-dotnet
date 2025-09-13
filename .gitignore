@@ -8,6 +8,7 @@ client/.angular/
 # .NET
 server/bin/
 server/obj/
+server/Logs/
 Server.Tests/bin/
 Server.Tests/obj/
 server/TestResults/
