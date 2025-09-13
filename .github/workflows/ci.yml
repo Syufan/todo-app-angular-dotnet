@@ -77,12 +77,13 @@ jobs:
         run: dotnet restore
 
       - name: Run .NET format check
+        id: formatcheck
         working-directory: ./server
         run: dotnet format --verify-no-changes
 
       - name: Show format error hint
-        if: failure()
-        run: echo "::error::Run 'dotnet format' to fix code style issues."
+        if: failure() && steps.formatcheck.outcome == 'failure'
+        run: echo "::error::Run 'dotnet format' locally to fix code style issues."
           
       - name: Build .NET backend
         working-directory: ./server
