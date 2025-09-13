@@ -89,10 +89,10 @@ describe('TodoStore', () => {
 
   it('remove(): success filters list', () => {
     // seed state
-    (store as any).todos.set([
-      { id: 1, title: 'A' },
-      { id: 2, title: 'B' },
-    ]);
+    store.todos.set([
+        { id: 1, title: 'A' },
+        { id: 2, title: 'B' },
+      ]);
     api.remove.and.returnValue(of(void 0));
 
     store.remove(1);
@@ -103,7 +103,7 @@ describe('TodoStore', () => {
   });
 
   it('remove(): failure keeps list and sets error', () => {
-    (store as any).todos.set([{ id: 1, title: 'A' }]);
+    store.todos.set([{ id: 1, title: 'A' }]);
     const err = new HttpErrorResponse({ status: 500, error: 'boom' });
     api.remove.and.returnValue(throwError(() => err));
 
