@@ -44,7 +44,6 @@ To ensure consistent builds across all developers, this project **locks the envi
 |--------------|------------------|-------------------------------------------|
 | Node.js      | `.nvmrc`         | Version `20.17.0`                         |
 | .NET SDK     | `global.json`    | Version `9.0.200`                         |
-| nvm (optional) | —              | Use [nvm](https://github.com/nvm-sh/nvm) or nvm-windows |
 
 ---
 
