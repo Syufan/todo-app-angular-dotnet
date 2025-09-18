@@ -1,4 +1,3 @@
-// client/src/app/services/todo.store.ts
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable, inject, signal, computed } from '@angular/core';
 import { TodoService } from './todo.service';

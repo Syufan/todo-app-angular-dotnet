@@ -15,9 +15,9 @@ public class TodoControllerTests
     public void Get_ReturnsOkWithList()
     {
         var repo = Repo();
-        var sut  = new TodoController(repo);
+        var sut = new TodoController(repo);
 
-        var act =  sut.GetTodos();
+        var act = sut.GetTodos();
 
         var ok = act.Result.Should().BeOfType<OkObjectResult>().Subject;
         ok.StatusCode.Should().Be(200);
@@ -41,16 +41,6 @@ public class TodoControllerTests
         list.Should().ContainSingle(x => x.Id == created.Id && x.Title == "Buy eggs");
     }
 
-    private static void ValidateModel(object model, ControllerBase controller)
-    {
-        var context = new ValidationContext(model);
-        var results = new List<ValidationResult>();
-        Validator.TryValidateObject(model, context, results, validateAllProperties: true);
-
-        foreach (var vr in results)
-            controller.ModelState.AddModelError(vr.MemberNames.FirstOrDefault() ?? string.Empty, vr.ErrorMessage!);
-    }
-
     [Fact]
     public void AddTodo_WithEmptyTitle_ReturnsBadRequest()
     {
@@ -61,6 +51,16 @@ public class TodoControllerTests
 
         var badRequest = Assert.IsType<BadRequestObjectResult>(result.Result);
         Assert.Equal(400, badRequest.StatusCode);
+    }
+
+    private static void ValidateModel(object model, ControllerBase controller)
+    {
+        var context = new ValidationContext(model);
+        var results = new List<ValidationResult>();
+        Validator.TryValidateObject(model, context, results, validateAllProperties: true);
+
+        foreach (var vr in results)
+            controller.ModelState.AddModelError(vr.MemberNames.FirstOrDefault() ?? string.Empty, vr.ErrorMessage!);
     }
 
     [Fact]
