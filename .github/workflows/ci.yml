@@ -34,11 +34,15 @@ jobs:
 
       - name: Install Angular dependencies
         working-directory: ./client
-        run: npm install
+        run: npm ci
 
       - name: Run Angular lint
         working-directory: ./client
         run: npm run lint
+      
+      - name: Run TypeScript static analysis
+        working-directory: ./client
+        run: npx tsc --noEmit
 
       - name: Build Angular frontend
         working-directory: ./client
@@ -84,7 +88,11 @@ jobs:
       - name: Show format error hint
         if: failure() && steps.formatcheck.outcome == 'failure'
         run: echo "::error::Run 'dotnet format' locally to fix code style issues."
-          
+      
+      - name: Run .NET static analysis
+        working-directory: ./server
+        run: dotnet build -warnaserror -property:RunAnalyzers=true 
+        
       - name: Build .NET backend
         working-directory: ./server
         run: dotnet build --no-restore

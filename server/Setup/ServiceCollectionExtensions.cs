@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
+using Serilog.Events;
 using Server.Application;
 using Server.Infrastructure;
 
@@ -7,6 +9,20 @@ namespace Server.Setup;
 
 public static class ServiceCollectionExtensions
 {
+    // Add Serilog
+    public static WebApplicationBuilder AddSerilogLogging(this WebApplicationBuilder builder)
+    {
+        builder.Host.UseSerilog((ctx, sp, cfg) => cfg
+            .MinimumLevel.Information()
+            .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+            .MinimumLevel.Override("Microsoft.Hosting.Lifetime", LogEventLevel.Information)
+            .Enrich.FromLogContext()
+            .WriteTo.Console()
+            .WriteTo.File("Logs/app.log", rollingInterval: RollingInterval.Day)
+        );
+        return builder;
+    }
+
     // Registers core API-level services and configurations
     public static IServiceCollection AddApiBasics(
         this IServiceCollection services,
@@ -41,16 +57,6 @@ public static class ServiceCollectionExtensions
                  .AllowAnyMethod());
         });
 
-        // Structured HTTP request logging
-        services.AddHttpLogging(o =>
-        {
-            o.LoggingFields = HttpLoggingFields.RequestMethod
-                            | HttpLoggingFields.RequestPath
-                            | HttpLoggingFields.ResponseStatusCode
-                            | HttpLoggingFields.Duration;
-            o.RequestHeaders.Add("X-Correlation-Id");
-        });
-
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
         return services;
@@ -60,13 +66,6 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddTodoInfrastructure(this IServiceCollection services)
     {
         services.AddSingleton<ITodoRepository, InMemoryTodoRepository>();
-        return services;
-    }
-
-    // Register the Correlation ID middleware
-    public static IServiceCollection AddCorrelationId(this IServiceCollection services)
-    {
-        services.AddTransient<Middleware.CorrelationIdMiddleware>();
         return services;
     }
 }

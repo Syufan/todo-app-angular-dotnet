@@ -1,3 +1,4 @@
+using Serilog;
 using Server.Middleware;
 
 namespace Server.Setup;
@@ -9,13 +10,20 @@ public static class WebApplicationExtensions
         // Global exception handler
         app.UseExceptionHandler();
 
-        // Structured Logging
+        // Injects a Correlation ID
         app.UseMiddleware<CorrelationIdMiddleware>();
 
-        // Built in structured logging
-        app.UseHttpLogging();
+        // Enable Serilog
+        app.UseSerilogRequestLogging(opts =>
+        {
+            opts.EnrichDiagnosticContext = (diag, http) =>
+            {
+                var cid = http.Response.Headers["X-Correlation-Id"].ToString();
+                diag.Set("CorrelationId", cid);
+            };
+        });
 
-        // Enable CORS policy named "Client" (typically for frontend access)
+        // Enable CORS policy named "Client"
         app.UseCors("Client");
 
         // Only enable Swagger documentation in development environment

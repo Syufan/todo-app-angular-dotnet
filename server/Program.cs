@@ -1,23 +1,13 @@
-using Serilog;
 using Server.Setup;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configure Serilog for structured logging
-Log.Logger = new LoggerConfiguration()
-    .MinimumLevel.Information()
-    .MinimumLevel.Override("Microsoft", Serilog.Events.LogEventLevel.Information)
-    .WriteTo.Console()
-    .WriteTo.File("Logs/app.log", rollingInterval: RollingInterval.Day)
-    .CreateLogger();
-
-// Replace default logger with Serilog
-builder.Host.UseSerilog();
+// Serilog for structured logging
+builder.AddSerilogLogging();
 
 builder.Services
     .AddApiBasics(builder.Configuration)   // Add controllers, CORS, Swagger, ProblemDetails, HttpLogging
-    .AddTodoInfrastructure()               // Register repository layer
-    .AddCorrelationId();                   // Middleware to inject correlation ID
+    .AddTodoInfrastructure();               // Register repository layer
 
 var app = builder.Build();
 

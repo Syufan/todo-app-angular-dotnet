@@ -9,6 +9,10 @@ echo "🔍 frontend: ng lint (project)"
 
 npm --prefix client run lint
 
+echo "🔍 frontend: TypeScript static analysis"
+
+npx --prefix client tsc --noEmit
+
 echo "🔍 backend: dotnet format --verify-no-changes"
 
 dotnet format ./server/server.csproj --verify-no-changes
